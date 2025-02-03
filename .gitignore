@@ -1,0 +1,77 @@
+# Compiled output
+dist/
+out-tsc/
+build/
+
+# Dependencies
+node_modules/
+
+# Angular specific
+.angular/
+.angular-cache/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.sublime-workspace
+
+# Logs and debugging
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+
+# TypeScript
+*.tsbuildinfo
+
+# Generated files
+package-lock.json
+yarn.lock
+.pnp*
+.pnp.js
+
+# Coverage reports
+coverage/
+
+# Firebase
+.firebase/
+
+# Capacitor
+capacitor.config.ts
+capacitor.config.json
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
+
+# Angular CLI specific
+/.angular/cache
+/.angular/local
+/.angular/server
+
+# Cypress (if used)
+cypress/videos/
+cypress/screenshots/
+
+# Playwright (if used)
+playwright-report/
+test-results/
+
+# Storybook (if used)
+.storybook/
+storybook-static/
+
+# NX (if used)
+nx-report/
+project.json

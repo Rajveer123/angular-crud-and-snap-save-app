@@ -50,6 +50,7 @@ export class EmployComponent implements OnInit {
     this.skills.push({ name: 'SwiftUI', id: 2, checked: false });
   }
   saveEmployee(type: NgForm) {
+    //Perform validation before save employee data
     if(this.isValid()){
       this.services.addEmployee(this.employee);
       //Open Confirm DialogPopup after Save Employee and Navigate user to Home page
@@ -77,7 +78,27 @@ export class EmployComponent implements OnInit {
     let valid = true;
     if(this.employee.employeeName.trim() == null || this.employee.employeeName.trim() == undefined || this.employee.employeeName.trim() == ''){
       this.showConfirmationMessage("Alert", "Please  enter employee name.", undefined);
-      valid = false;
+      return false;
+    }
+    if(this.employee.employeeEmailAdress.trim() == null || this.employee.employeeEmailAdress.trim() == undefined || this.employee.employeeEmailAdress.trim() == ''){
+      this.showConfirmationMessage("Alert", "Please  enter employee email address.", undefined);
+      return false;
+    }
+    if(this.employee.employeeContactNumber.trim() == null || this.employee.employeeContactNumber.trim() == undefined || this.employee.employeeContactNumber.trim() == ''){
+      this.showConfirmationMessage("Alert", "Please  enter employee phone number.", undefined);
+      return false;
+    }
+    if(this.employee.employeeDepartment.trim() == this.departmentTypes[0]){
+      this.showConfirmationMessage("Alert", "Please  select employee department.", undefined);
+      return false;
+    }
+    if(this.employee.employeeGender.trim() == null || this.employee.employeeGender.trim() == undefined || this.employee.employeeGender.trim() == ''){
+      this.showConfirmationMessage("Alert", "Please  select employee gender.", undefined);
+      return false;
+    }
+    if(this.employee.employeeSkills.trim() == null || this.employee.employeeSkills.trim() == undefined || this.employee.employeeSkills.trim() == ''){
+      this.showConfirmationMessage("Alert", "Please  select employee skills.", undefined);
+      return false;
     }
     return valid;
   }

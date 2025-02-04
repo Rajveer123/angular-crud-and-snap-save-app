@@ -24,7 +24,7 @@ import { Router } from '@angular/router';
 export class ConfirmationDialogComponent {
   constructor(private router : Router,
     public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { message: string, title: string, navigationPath : string },
+    @Inject(MAT_DIALOG_DATA) public data: { message: string, title: string, navigationPath : string , showBothButtons : boolean},
   ) {}
   handleButtonClick(actionType: string){
     if(actionType === 'confirm'){

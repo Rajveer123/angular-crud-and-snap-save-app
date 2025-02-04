@@ -29,10 +29,10 @@
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>Favorite Food</mat-label>
-            <mat-select [(value)]="selectedOption">
-                @for (food of foods; track food) {
-                <mat-option [value]="food.value">{{ food.viewValue }}</mat-option>
+            <mat-label>DepartMent</mat-label>
+            <mat-select [value]="selectedDepartment">
+                @for (department of departmentTypes; track department) {
+                <mat-option [value]="department">{{ departmentTypeToNameMapping[department] }}</mat-option>
                 }
             </mat-select>
         </mat-form-field>

@@ -1,6 +1,7 @@
-export interface DepartMent {
-    value: string;
-    viewValue: string;
+export interface Skills {
+    name: string;
+    id: number;
+    checked: boolean;
   }
 
   export interface Employee {

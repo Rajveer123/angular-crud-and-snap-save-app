@@ -5,6 +5,10 @@ export enum DepartmentType {
     HR = 'Human Resources',
     MANAGEMENT = 'Management'
 }
+export enum Gender {
+    MALE = 'Male',
+    FEMALE = 'Female',
+}
 export const DepartmentTypeToNameMapping: Record<DepartmentType, string> = {
     [DepartmentType.SELECT_DEPARTMENT]: "-- Select Department --",
     [DepartmentType.IT_TECHNOLOGY]: "It Technology",

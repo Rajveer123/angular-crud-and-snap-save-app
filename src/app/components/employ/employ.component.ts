@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
@@ -12,6 +12,8 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
 import { DepartmentType , DepartmentTypeToNameMapping} from '../../enums/employee.enums'
 import { Router } from '@angular/router';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-employ',
   imports: [
@@ -23,6 +25,7 @@ import { Router } from '@angular/router';
   styleUrl: './employ.component.css'
 })
 export class EmployComponent implements OnInit {
+  readonly dialog = inject(MatDialog);
   selectedDepartment : string = '';
   employee: Employee = {
     employeeId: 0,
@@ -45,7 +48,19 @@ export class EmployComponent implements OnInit {
   saveEmployee(){
 
   }
+  openConfirmDialogPopup(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    this.dialog.open(ConfirmationDialogComponent, {
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: {title : 'Please Confirm', message : 'Would you like to cancel process ?', navigationPath : '/'}
+    });
+    this.dialog.afterAllClosed.subscribe((result) => {
+      console.log('result is : '+this.dialog);
+    });
+    
+  }
   handleCancel(){
-    this.route.navigate(['/']);
+    //Open Confirm DialogPopup on cancel
+    this.openConfirmDialogPopup('0ms', '0ms')
   }
 }

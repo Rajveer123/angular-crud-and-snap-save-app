@@ -30,8 +30,8 @@ export class EmployComponent implements OnInit {
   public departmentTypes = Object.values(DepartmentType);
   public genderTypes = Object.values(Gender);
   selectedDepartment: string = '';
-  selectedGender: string = '';
-  selectedSkillValues = '';
+  //selectedGender: string = '';
+  //selectedSkillValues = '';
   selectedSkills: Skills[] = [];
   skills:Skills[] = [];
   employee: Employee = {
@@ -40,19 +40,19 @@ export class EmployComponent implements OnInit {
     employeeEmailAdress: '',
     employeeGender: '',
     employeeContactNumber: '',
-    employeeDepartment: '',
+    employeeDepartment: this.departmentTypes[0],
     employeeSkills: ''
   }
   constructor(private route: Router) { }
   ngOnInit(): void {
-    this.selectedDepartment = this.departmentTypes[0];
+    //this.selectedDepartment = this.departmentTypes[0];
     this.skills.push({name : 'Java', id:0, checked : false});
     this.skills.push({name : 'C#', id:1, checked : false});
     this.skills.push({name : 'Cotlin', id:3, checked : false});
     this.skills.push({name : 'SwiftUI', id:2, checked : false});
   }
   saveEmployee() {
-
+    console.log(JSON.stringify(this.employee));
   }
   openConfirmDialogPopup(enterAnimationDuration: string, exitAnimationDuration: string): void {
     this.dialog.open(ConfirmationDialogComponent, {
@@ -70,6 +70,6 @@ export class EmployComponent implements OnInit {
     ? this.selectedSkills.filter(skill => skill.id !== event.id)
     : [...this.selectedSkills, { ...event, checked: true }];
 
-  this.selectedSkillValues = this.selectedSkills.map(skill => skill.name).join(', ');
+  this.employee.employeeSkills = this.selectedSkills.map(skill => skill.name).join(', ');
 }
 }

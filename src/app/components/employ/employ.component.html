@@ -29,7 +29,7 @@
 
             <mat-form-field>
                 <mat-label>DepartMent</mat-label>
-                <mat-select [value]="selectedDepartment" name="employeeDepartment">
+                <mat-select [(ngModel)]="employee.employeeDepartment" name="employeeDepartment">
                     @for (department of departmentTypes; track department) {
                     <mat-option [value]="department">{{
                         departmentTypeToNameMapping[department]
@@ -40,7 +40,7 @@
 
             <section class="example-section">
                 <label class="example-margin">Gender</label>
-                <mat-radio-group name="employeeGender" [(ngModel)]="selectedGender">
+                <mat-radio-group name="employeeGender" [(ngModel)]="employee.employeeGender">
                     @for(gender of genderTypes; track gender) {
                     <mat-radio-button class="example-margin" [value]="gender">{{
                         gender
@@ -51,7 +51,7 @@
 
             <mat-form-field appearance="fill">
                 <mat-label>Selected Skills</mat-label>
-                <input matInput placeholder="Selected Skills" name="skillsTextField" [value]="selectedSkillValues"
+                <input matInput placeholder="Selected Skills" name="skillsTextField" [value]="employee.employeeSkills"
                     disabled="true" />
                 <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
             </mat-form-field>

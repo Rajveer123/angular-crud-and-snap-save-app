@@ -10,21 +10,21 @@
             <mat-form-field appearance="fill">
                 <mat-label>Please Enter Employ Name</mat-label>
                 <input matInput placeholder="Name" name="employeeName" [(ngModel)]="employee.employeeName" />
-                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-icon matSuffix>person</mat-icon>
             </mat-form-field>
 
             <mat-form-field appearance="fill">
                 <mat-label>Please Enter Employ Email</mat-label>
                 <input matInput placeholder="Email" name="employeeEmailAdress"
                     [(ngModel)]="employee.employeeEmailAdress" />
-                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-icon matSuffix>drafts</mat-icon>
             </mat-form-field>
 
             <mat-form-field appearance="fill">
                 <mat-label>Please Enter Employ Phone</mat-label>
-                <input matInput placeholder="Phone" name="employeeContactNumber"
+                <input matInput placeholder="Phone"  name="employeeContactNumber"
                     [(ngModel)]="employee.employeeContactNumber" />
-                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-icon matSuffix>call</mat-icon>
             </mat-form-field>
 
             <mat-form-field>
@@ -53,7 +53,7 @@
                 <mat-label>Selected Skills</mat-label>
                 <input matInput placeholder="Selected Skills" name="skillsTextField" [value]="employee.employeeSkills"
                     disabled="true" />
-                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-icon matSuffix>task_alt</mat-icon>
             </mat-form-field>
 
             <div>

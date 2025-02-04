@@ -6,7 +6,7 @@ export interface DepartMent {
   export interface Employee {
     employeeId: number;
     employeeName: string;
-    employeeAdress: string;
+    employeeEmailAdress: string;
     employeeGender: string;
     employeeContactNumber: string;
     employeeDepartment: string;

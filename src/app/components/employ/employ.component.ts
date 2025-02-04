@@ -5,7 +5,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import { Employee, DepartMent } from '../../models/employ.model';
 import { CommonModule } from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import {FormGroup, FormGroupName, FormsModule} from '@angular/forms';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatDividerModule} from '@angular/material/divider';
@@ -26,7 +26,7 @@ export class EmployComponent implements OnInit {
   employee: Employee = {
     employeeId: 0,
     employeeName: '',
-    employeeAdress: '',
+    employeeEmailAdress: '',
     employeeGender: '',
     employeeContactNumber: '',
     employeeDepartment: '',

@@ -3,7 +3,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { Employee, Skills} from '../../models/employ.model';
+import { Employee, Skills } from '../../models/employ.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -31,7 +31,7 @@ export class EmployComponent implements OnInit {
   public departmentTypes = Object.values(DepartmentType);
   public genderTypes = Object.values(Gender);
   selectedSkills: Skills[] = [];
-  skills:Skills[] = [];
+  skills: Skills[] = [];
   employee: Employee = {
     //Passing random ID to employee
     employeeId: Math.floor(Math.random() * 100000),
@@ -42,33 +42,47 @@ export class EmployComponent implements OnInit {
     employeeDepartment: this.departmentTypes[0],
     employeeSkills: ''
   }
-  constructor(private route: Router, private services : EmployService) { }
+  constructor(private route: Router, private services: EmployService) { }
   ngOnInit(): void {
-    this.skills.push({name : 'Java', id:0, checked : false});
-    this.skills.push({name : 'C#', id:1, checked : false});
-    this.skills.push({name : 'Cotlin', id:3, checked : false});
-    this.skills.push({name : 'SwiftUI', id:2, checked : false});
+    this.skills.push({ name: 'Java', id: 0, checked: false });
+    this.skills.push({ name: 'C#', id: 1, checked: false });
+    this.skills.push({ name: 'Cotlin', id: 3, checked: false });
+    this.skills.push({ name: 'SwiftUI', id: 2, checked: false });
   }
-  saveEmployee(type : NgForm) {
-    this.services.addEmployee(this.employee);
-    //Open Confirm DialogPopup after Save Employee and Navigate user to Home page
-    this.openConfirmDialogPopup('0ms', '0ms', 'Congratulations!!', 'Employee data saved successfully!!','/');
-   }
-  openConfirmDialogPopup(enterAnimationDuration: string, exitAnimationDuration: string, title: string, message:string, navigationPath:string, showBothButtons : boolean = false): void {
+  saveEmployee(type: NgForm) {
+    if(this.isValid()){
+      this.services.addEmployee(this.employee);
+      //Open Confirm DialogPopup after Save Employee and Navigate user to Home page
+      this.showConfirmationMessage("Congratulations!!", "Employee data saved successfully!!", "/");
+    }
+  }
+  openConfirmDialogPopup(enterAnimationDuration: string, exitAnimationDuration: string, title: string, message: string, navigationPath: string | undefined, showBothButtons: boolean = false): void {
     this.dialog.open(ConfirmationDialogComponent, {
       enterAnimationDuration,
       exitAnimationDuration,
-     data: { title: title, message: message, navigationPath: navigationPath, showBothButtons}
+      data: { title: title, message: message, navigationPath: navigationPath, showBothButtons }
     });
   }
   handleCancel() {
     //Open Confirm DialogPopup on cancel
-    this.openConfirmDialogPopup('0ms', '0ms', 'Please Confirm', 'Would you like to cancel process ?','/', true)
+    this.showConfirmationMessage("Please Confirm", "Would you like to cancel process ?", "/", true);
   }
-  onCheckBoxChange(event : Skills){
+  onCheckBoxChange(event: Skills) {
     this.selectedSkills = this.selectedSkills.some(skill => skill.id === event.id)
-    ? this.selectedSkills.filter(skill => skill.id !== event.id)
-    : [...this.selectedSkills, { ...event, checked: true }];
+      ? this.selectedSkills.filter(skill => skill.id !== event.id)
+      : [...this.selectedSkills, { ...event, checked: true }];
     this.employee.employeeSkills = this.selectedSkills.map(skill => skill.name).join(', ');
-}
+  }
+  isValid() : boolean {
+    let valid = true;
+    if(this.employee.employeeName.trim() == null || this.employee.employeeName.trim() == undefined || this.employee.employeeName.trim() == ''){
+      this.showConfirmationMessage("Alert", "Please  enter employee name.", undefined);
+      valid = false;
+    }
+    return valid;
+  }
+  showConfirmationMessage(title: string, message: string, navigationPath : string | undefined, showBothButtons: boolean = false){
+    //Open Confirm DialogPopup
+    this.openConfirmDialogPopup('0ms', '0ms', title, message, navigationPath, showBothButtons);
+  }
 }

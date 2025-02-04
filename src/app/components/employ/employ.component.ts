@@ -11,6 +11,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
 import { DepartmentType , DepartmentTypeToNameMapping} from '../../enums/employee.enums'
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-employ',
   imports: [
@@ -32,7 +33,7 @@ export class EmployComponent implements OnInit {
     employeeDepartment: '',
     employeeSkills: ''
   }
-  constructor() { }
+  constructor(private route : Router) { }
   ngOnInit(): void {
     this.selectedDepartment = this.departmentTypes[0];
   }
@@ -45,6 +46,6 @@ export class EmployComponent implements OnInit {
 
   }
   handleCancel(){
-
+    this.route.navigate(['/']);
   }
 }

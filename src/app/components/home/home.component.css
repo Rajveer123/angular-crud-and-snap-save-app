@@ -4,4 +4,9 @@
 img{
   cursor: pointer;
 }
+.employeeListContainer {
+  display: flex; 
+  height: 95%; width: 95%; 
+  background-color: papayawhip;
+}
 

@@ -14,7 +14,7 @@ import { DepartmentType, DepartmentTypeToNameMapping, Gender } from '../../enums
 import { Router } from '@angular/router';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { EmployService } from '../../sevices/employ.service';
+import { EmployService } from '../../services/employ.service';
 @Component({
   selector: 'app-employ',
   imports: [

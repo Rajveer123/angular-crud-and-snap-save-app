@@ -4,7 +4,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { Employee } from '../../models/employ.model';
 import { Router } from '@angular/router';
-import { EmployService } from '../../sevices/employ.service';
+import { EmployService } from '../../services/employ.service';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 

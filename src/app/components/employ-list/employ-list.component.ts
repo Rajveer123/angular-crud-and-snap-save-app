@@ -24,7 +24,7 @@ const EMPLOYEE_LIST: Employee[] = [
   imports: [MatFormFieldModule, MatInputModule, MatTableModule],
 })
 export class EmployListComponent {
-  displayedColumns: string[] = ['employeeId', 'employeeName', 'employeeEmailAdress', 'employeeDepartment','employeeSkills'];
+  displayedColumns: string[] = ['employeeId', 'employeeName', 'employeeEmailAdress', 'employeeDepartment','employeeSkills','actions'];
   dataSource = new MatTableDataSource(EMPLOYEE_LIST);
   // constructor(private route: Router, private services: EmployService) {
   // }
@@ -35,6 +35,9 @@ export class EmployListComponent {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  handleButtonClick(isUpdateAction: boolean, employeeId : string): void {
+    console.log('updateEmployeDta called : '+isUpdateAction+' employeeId :'+employeeId);
   }
   
 }

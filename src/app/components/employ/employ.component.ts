@@ -34,6 +34,7 @@ export class EmployComponent implements OnInit {
   selectedSkills: Skills[] = [];
   selectedEmployeID = 0;
   skills: Skills[] = [];
+  selectedAction : string = 'Cancel';
   employee: Employee = {
     //Passing random ID to employee
     employeeId: Math.floor(Math.random() * 100000),
@@ -63,14 +64,22 @@ export class EmployComponent implements OnInit {
     }
   }
   handleDelete(){
-
+    this.selectedAction = 'Delete';
+    //Open Confirm DialogPopup before Delete Employee
+    this.showConfirmationMessage("Delete", "Do you really wants to delete this employe ?", true, true);
   }
   saveEmployee(type: NgForm) {
-    //Perform validation before save employee data
+    //Perform validation before save / update employee data
     if (this.isValid()) {
-      this.services.addEmployee(this.employee);
+      if(this.selectedEmployeID>0){
+        this.services.updateEmployee(this.employee);
+        //Open Confirm DialogPopup after Update Employee and Navigate user to Home page
+        this.showConfirmationMessage("Congratulations!!", "Employee data updated successfully!!", false, true);
+      }else {
+        this.services.addEmployee(this.employee);
       //Open Confirm DialogPopup after Save Employee and Navigate user to Home page
       this.showConfirmationMessage("Congratulations!!", "Employee data saved successfully!!", false, true);
+      }
     }
   }
   openConfirmDialogPopup(enterAnimationDuration: string, exitAnimationDuration: string, title: string, message: string, showBothButtons: boolean = false, isAfterAddEmploye: boolean = false): void {
@@ -82,6 +91,10 @@ export class EmployComponent implements OnInit {
     // Handling the dialog result
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        if(this.selectedAction == 'Delete') {
+            //Delete Employee from local storage 
+            this.services.deleteEmployee(this.selectedEmployeID);
+        }
         // Navigate user back to List page on Cancel action
         this.navigateUserToHomePage();
       }

@@ -59,7 +59,7 @@ export class EmployListComponent implements OnInit{
     if(isUpdateAction){
       this.route.navigate(['employ/',employeeId]);
     }else{
-      this.openConfirmDialogPopup('0ms', '0ms', "Delete", "Do you really wants to delete this employe ?", undefined, true);
+      this.openConfirmDialogPopup('0ms', '0ms', "Delete", "Do you really wants to delete this employe ?", true);
     }
   }
   deleteEmployee(employeeId: number): void {
@@ -69,11 +69,11 @@ export class EmployListComponent implements OnInit{
     this.EMPLOYEE_LIST = this.EMPLOYEE_LIST.filter(employee => employee.employeeId!== employeeId);
     this.dataSource = new MatTableDataSource(this.EMPLOYEE_LIST);
   }
-  openConfirmDialogPopup(enterAnimationDuration: string, exitAnimationDuration: string, title: string, message: string, navigationPath: string | undefined, showBothButtons: boolean = false): void {
+  openConfirmDialogPopup(enterAnimationDuration: string, exitAnimationDuration: string, title: string, message: string, showBothButtons: boolean = false): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       enterAnimationDuration,
       exitAnimationDuration,
-      data: { title: title, message: message, navigationPath: navigationPath, showBothButtons}
+      data: { title: title, message: message, showBothButtons}
     });
     // Handling the dialog result
     dialogRef.afterClosed().subscribe(result => {

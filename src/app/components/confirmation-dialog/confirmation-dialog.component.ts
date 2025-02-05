@@ -1,4 +1,4 @@
-import { Component, Inject} from '@angular/core';
+import { Component,Inject} from '@angular/core';
 import {
   MatDialogActions,
   MatDialogClose,
@@ -22,6 +22,7 @@ import { Router } from '@angular/router';
   styleUrl: './confirmation-dialog.component.css'
 })
 export class ConfirmationDialogComponent {
+  
   constructor(private router : Router,
     public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { message: string, title: string, navigationPath : string | undefined , showBothButtons : boolean},
@@ -32,6 +33,6 @@ export class ConfirmationDialogComponent {
       this.router.navigate([this.data.navigationPath]);
     }
     //Close the dialog
-    this.dialogRef.close(actionType);
+    this.dialogRef.close(actionType === 'confirm' ? true : false);
   }
 }

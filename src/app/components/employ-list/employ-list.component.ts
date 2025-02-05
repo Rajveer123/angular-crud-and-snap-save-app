@@ -1,10 +1,12 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, inject} from '@angular/core';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { Employee } from '../../models/employ.model';
 import { Router } from '@angular/router';
 import { EmployService } from '../../sevices/employ.service';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-employ-list',
@@ -12,10 +14,12 @@ import { EmployService } from '../../sevices/employ.service';
   styleUrl: './employ-list.component.css',
   imports: [MatFormFieldModule, MatInputModule, MatTableModule],
 })
-export class EmployListComponent {
+export class EmployListComponent implements OnInit{
+  readonly dialog = inject(MatDialog);
   EMPLOYEE_LIST : Employee[]= [];
   displayedColumns: string[] = ['employeeId', 'employeeName', 'employeeEmailAdress', 'employeeDepartment','employeeSkills','actions'];
   dataSource = new MatTableDataSource(this.EMPLOYEE_LIST);
+  selectedEmployeeId = 0;
   constructor(private route: Router, private services: EmployService) {
   }
   ngOnInit(): void {
@@ -23,6 +27,7 @@ export class EmployListComponent {
     this.EMPLOYEE_LIST = [];
     //Reset db data for debuging purpos
     //this.services.resetEmployeDB();
+    //Get the employee data from local storage via Dependancy Injection service object
     let employees: Employee[] = this.services.getEmployesses();
     employees.forEach(employees => {
       let employee: Employee = {
@@ -44,15 +49,32 @@ export class EmployListComponent {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   handleButtonClick(isUpdateAction: boolean, employeeId : string): void {
+    this.selectedEmployeeId = parseInt(employeeId);
     if(isUpdateAction){
 
     }else{
-      this.deleteEmployee(parseInt(employeeId));
+      this.openConfirmDialogPopup('0ms', '0ms', "Delete", "Do you really wants to delete this employe ?", undefined, true);
     }
   }
   deleteEmployee(employeeId: number): void {
+    //Delete Employee from local storage 
     this.services.deleteEmployee(employeeId);
+    //Update the employ list after deletion from local storage
     this.EMPLOYEE_LIST = this.EMPLOYEE_LIST.filter(employee => employee.employeeId!== employeeId);
     this.dataSource = new MatTableDataSource(this.EMPLOYEE_LIST);
+  }
+  openConfirmDialogPopup(enterAnimationDuration: string, exitAnimationDuration: string, title: string, message: string, navigationPath: string | undefined, showBothButtons: boolean = false): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: { title: title, message: message, navigationPath: navigationPath, showBothButtons}
+    });
+    // Handling the dialog result
+    dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      // Call delete employee action once user confirms
+      this.deleteEmployee(this.selectedEmployeeId); 
+    }
+  });
   }
 }

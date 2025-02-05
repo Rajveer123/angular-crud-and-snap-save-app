@@ -10,5 +10,4 @@ import { EmployListComponent } from '../employ-list/employ-list.component';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-
 }

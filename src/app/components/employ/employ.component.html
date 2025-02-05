@@ -23,7 +23,7 @@
             <mat-form-field appearance="fill">
                 <mat-label>Please Enter Employ Phone</mat-label>
                 <input matInput placeholder="Phone"  name="employeeContactNumber"
-                    [(ngModel)]="employee.employeeContactNumber" maxlength="10"/>
+                    [(ngModel)]="employee.employeeContactNumber" maxlength="10" type="tel" pattern="[0-9]*"/>
                 <mat-icon matSuffix>call</mat-icon>
             </mat-form-field>
 

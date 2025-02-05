@@ -8,12 +8,14 @@ import { EmployService } from '../../services/employ.service';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { HeaderTitleServiceService } from '../../services/header.title.service.service';
-
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
 @Component({
   selector: 'app-employ-list',
   templateUrl: './employ-list.component.html',
   styleUrl: './employ-list.component.css',
-  imports: [MatFormFieldModule, MatInputModule, MatTableModule],
+  imports: [MatFormFieldModule, MatInputModule, MatTableModule,MatButtonModule,MatIconModule,MatDividerModule],
 })
 export class EmployListComponent implements OnInit{
   readonly dialog = inject(MatDialog);

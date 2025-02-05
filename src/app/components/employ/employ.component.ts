@@ -54,19 +54,26 @@ export class EmployComponent implements OnInit {
     if(this.isValid()){
       this.services.addEmployee(this.employee);
       //Open Confirm DialogPopup after Save Employee and Navigate user to Home page
-      this.showConfirmationMessage("Congratulations!!", "Employee data saved successfully!!", "/");
+      this.showConfirmationMessage("Congratulations!!", "Employee data saved successfully!!", false, true);
     }
   }
-  openConfirmDialogPopup(enterAnimationDuration: string, exitAnimationDuration: string, title: string, message: string, navigationPath: string | undefined, showBothButtons: boolean = false): void {
-    this.dialog.open(ConfirmationDialogComponent, {
+  openConfirmDialogPopup(enterAnimationDuration: string, exitAnimationDuration: string, title: string, message: string, showBothButtons: boolean = false, isAfterAddEmploye : boolean = false): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       enterAnimationDuration,
       exitAnimationDuration,
-      data: { title: title, message: message, navigationPath: navigationPath, showBothButtons }
+      data: { title: title, message: message, showBothButtons, isAfterAddEmploye }
+    });
+    // Handling the dialog result
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Navigate user back to List page on Cancel action
+        this.navigateUserToHomePage(); 
+      }
     });
   }
   handleCancel() {
     //Open Confirm DialogPopup on cancel
-    this.showConfirmationMessage("Please Confirm", "Would you like to cancel process ?", "/", true);
+    this.showConfirmationMessage("Please Confirm", "Would you like to cancel process ?", true);
   }
   onCheckBoxChange(event: Skills) {
     this.selectedSkills = this.selectedSkills.some(skill => skill.id === event.id)
@@ -77,19 +84,19 @@ export class EmployComponent implements OnInit {
   isValid() : boolean {
     let valid = true;
     if(this.employee.employeeName.trim() == null || this.employee.employeeName.trim() == undefined || this.employee.employeeName.trim() == ''){
-      this.showConfirmationMessage("Alert", "Please  enter employee name.", undefined);
+      this.showConfirmationMessage("Alert", "Please  enter employee name.");
       return false;
     }
     if(this.employee.employeeEmailAdress.trim() == null || this.employee.employeeEmailAdress.trim() == undefined || this.employee.employeeEmailAdress.trim() == ''){
-      this.showConfirmationMessage("Alert", "Please  enter employee email address.", undefined);
+      this.showConfirmationMessage("Alert", "Please  enter employee email address.");
       return false;
     }
     if(this.employee.employeeContactNumber.trim() == null || this.employee.employeeContactNumber.trim() == undefined || this.employee.employeeContactNumber.trim() == ''){
-      this.showConfirmationMessage("Alert", "Please  enter employee phone number.", undefined);
+      this.showConfirmationMessage("Alert", "Please  enter employee phone number.");
       return false;
     }
     if(this.employee.employeeDepartment.trim() == this.departmentTypes[0]){
-      this.showConfirmationMessage("Alert", "Please  select employee department.", undefined);
+      this.showConfirmationMessage("Alert", "Please  select employee department.");
       return false;
     }
     if(this.employee.employeeGender.trim() == null || this.employee.employeeGender.trim() == undefined || this.employee.employeeGender.trim() == ''){
@@ -97,13 +104,17 @@ export class EmployComponent implements OnInit {
       return false;
     }
     if(this.employee.employeeSkills.trim() == null || this.employee.employeeSkills.trim() == undefined || this.employee.employeeSkills.trim() == ''){
-      this.showConfirmationMessage("Alert", "Please  select employee skills.", undefined);
+      this.showConfirmationMessage("Alert", "Please  select employee skills.");
       return false;
     }
     return valid;
   }
-  showConfirmationMessage(title: string, message: string, navigationPath : string | undefined, showBothButtons: boolean = false){
+  showConfirmationMessage(title: string, message: string, showBothButtons: boolean = false, isAfterAddEmploye : boolean = false){
     //Open Confirm DialogPopup
-    this.openConfirmDialogPopup('0ms', '0ms', title, message, navigationPath, showBothButtons);
+    this.openConfirmDialogPopup('0ms', '0ms', title, message, showBothButtons, isAfterAddEmploye);
+  }
+  navigateUserToHomePage(){
+    //Navigate user to Home page
+    this.route.navigate(['/']);
   }
 }

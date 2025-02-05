@@ -8,7 +8,6 @@ import {
   MatDialogTitle,
 } from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-confirmation-dialog',
@@ -23,16 +22,11 @@ import { Router } from '@angular/router';
 })
 export class ConfirmationDialogComponent {
   
-  constructor(private router : Router,
-    public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { message: string, title: string, navigationPath : string | undefined , showBothButtons : boolean},
+  constructor(public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { message: string, title: string , showBothButtons : boolean, isAfterAddEmploye: boolean},
   ) {}
   handleButtonClick(actionType: string){
-    if(actionType === 'confirm' && this.data.navigationPath != undefined){
-      //Navigate to Home Page On Cancel Action
-      this.router.navigate([this.data.navigationPath]);
-    }
-    //Close the dialog
-    this.dialogRef.close(actionType === 'confirm' ? true : false);
+    //Close the dialog and send action to parent component
+    this.dialogRef.close((this.data.showBothButtons ? (actionType === 'confirm' ? true : false) :(this.data.isAfterAddEmploye ? true : false)));
   }
 }

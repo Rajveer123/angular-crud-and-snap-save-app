@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EmployService } from '../../services/employ.service';
+import { HeaderTitleServiceService } from '../../services/header.title.service.service';
 @Component({
   selector: 'app-employ',
   imports: [
@@ -42,8 +43,10 @@ export class EmployComponent implements OnInit {
     employeeDepartment: this.departmentTypes[0],
     employeeSkills: ''
   }
-  constructor(private route: Router, private services: EmployService) { }
+  constructor(private route: Router, private services: EmployService, private headerTitleService : HeaderTitleServiceService) { }
   ngOnInit(): void {
+    //Update Header Title
+    this.headerTitleService.setTitle('Add Employee');
     this.skills.push({ name: 'Java', id: 0, checked: false });
     this.skills.push({ name: 'C#', id: 1, checked: false });
     this.skills.push({ name: 'Cotlin', id: 3, checked: false });

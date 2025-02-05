@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { EmployService } from '../../services/employ.service';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { HeaderTitleServiceService } from '../../services/header.title.service.service';
 
 @Component({
   selector: 'app-employ-list',
@@ -20,9 +21,11 @@ export class EmployListComponent implements OnInit{
   displayedColumns: string[] = ['employeeId', 'employeeName', 'employeeEmailAdress', 'employeeDepartment','employeeSkills','actions'];
   dataSource = new MatTableDataSource(this.EMPLOYEE_LIST);
   selectedEmployeeId = 0;
-  constructor(private route: Router, private services: EmployService) {
+  constructor(private route: Router, private services: EmployService, private headerTitleService : HeaderTitleServiceService) {
   }
   ngOnInit(): void {
+    //Update Header Title
+    this.headerTitleService.setTitle('Employee List');
     //Reset the employ list and load employ data from local storage
     this.EMPLOYEE_LIST = [];
     //Reset db data for debuging purpos

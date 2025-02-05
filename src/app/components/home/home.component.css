@@ -1,12 +1,15 @@
-/* mat-grid-tile{
-  background-color: burlywood;
-} */
 img{
   cursor: pointer;
+  width: 92%;
 }
 .employeeListContainer {
   display: flex; 
-  height: 95%; width: 95%; 
+  height: 92%; width: 92%; 
   background-color: papayawhip;
+}
+mat-grid-list{
+  width: 100%; 
+  height: 100%; 
+  padding: 2%;
 }
 

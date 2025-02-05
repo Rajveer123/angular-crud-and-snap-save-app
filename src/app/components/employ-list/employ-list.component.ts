@@ -25,7 +25,7 @@ export class EmployListComponent implements OnInit{
   }
   ngOnInit(): void {
     //Update Header Title
-    this.headerTitleService.setTitle('Employee List');
+    this.headerTitleService.setTitle('Dashboard');
     //Reset the employ list and load employ data from local storage
     this.EMPLOYEE_LIST = [];
     //Reset db data for debuging purpos

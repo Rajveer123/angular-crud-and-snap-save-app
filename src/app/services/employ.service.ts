@@ -34,5 +34,10 @@ export class EmployService {
     employees = employees.filter(employee => employee.employeeId!== employeeId);
     localStorage.setItem(this.storageKey, JSON.stringify(employees));
   }
+
+  getEmployeeById(employeeId: number) : Employee | undefined {
+    const employees = this.getEmployesses();
+    return employees.find(employee => employee.employeeId == employeeId);
+  }
 }
 

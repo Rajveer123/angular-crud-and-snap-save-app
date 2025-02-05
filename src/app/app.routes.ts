@@ -7,6 +7,6 @@ import { EmployComponent } from './components/employ/employ.component';
 export const routes: Routes = [
     {path: 'header', component: HeaderComponent},
     {path: '',  component: HomeComponent},
-    {path: 'employ',  component: EmployComponent},
+    {path: 'employ/:id',  component: EmployComponent},
     {path: '**', component: PageNotFoundComponent}
 ];

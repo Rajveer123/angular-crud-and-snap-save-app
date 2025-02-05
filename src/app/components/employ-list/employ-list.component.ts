@@ -26,6 +26,7 @@ export class EmployListComponent implements OnInit{
   constructor(private route: Router, private services: EmployService, private headerTitleService : HeaderTitleServiceService) {
   }
   ngOnInit(): void {
+    
     //Update Header Title
     this.headerTitleService.setTitle('Dashboard');
     //Reset the employ list and load employ data from local storage
@@ -56,7 +57,7 @@ export class EmployListComponent implements OnInit{
   handleButtonClick(isUpdateAction: boolean, employeeId : string): void {
     this.selectedEmployeeId = parseInt(employeeId);
     if(isUpdateAction){
-
+      this.route.navigate(['employ/',employeeId]);
     }else{
       this.openConfirmDialogPopup('0ms', '0ms', "Delete", "Do you really wants to delete this employe ?", undefined, true);
     }

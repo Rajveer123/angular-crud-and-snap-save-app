@@ -11,7 +11,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { DepartmentType, DepartmentTypeToNameMapping, Gender } from '../../enums/employee.enums'
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EmployService } from '../../services/employ.service';
@@ -32,6 +32,7 @@ export class EmployComponent implements OnInit {
   public departmentTypes = Object.values(DepartmentType);
   public genderTypes = Object.values(Gender);
   selectedSkills: Skills[] = [];
+  selectedEmployeID = 0;
   skills: Skills[] = [];
   employee: Employee = {
     //Passing random ID to employee
@@ -43,24 +44,36 @@ export class EmployComponent implements OnInit {
     employeeDepartment: this.departmentTypes[0],
     employeeSkills: ''
   }
-  constructor(private route: Router, private services: EmployService, private headerTitleService : HeaderTitleServiceService) { }
+  buttonTitle: string = '';
+  disPlayDeleteButton: boolean = false;
+  constructor(private route: Router, private services: EmployService, private headerTitleService: HeaderTitleServiceService, private router: ActivatedRoute) { }
   ngOnInit(): void {
-    //Update Header Title
-    this.headerTitleService.setTitle('Add Employee');
+    this.selectedEmployeID = this.router.snapshot.params["id"];
     this.skills.push({ name: 'Java', id: 0, checked: false });
     this.skills.push({ name: 'C#', id: 1, checked: false });
-    this.skills.push({ name: 'Cotlin', id: 3, checked: false });
     this.skills.push({ name: 'SwiftUI', id: 2, checked: false });
+    this.skills.push({ name: 'Cotlin', id: 3, checked: false });
+
+    //Update Header and Button Title
+    this.headerTitleService.setTitle(this.selectedEmployeID > 0 ? 'Update Employee' : 'Add Employee');
+    this.buttonTitle = this.selectedEmployeID > 0 ? 'Update' : 'Save';
+    this.disPlayDeleteButton = this.selectedEmployeID > 0;
+    if (this.selectedEmployeID > 0) {
+      this.updateEmployeeData()
+    }
+  }
+  handleDelete(){
+
   }
   saveEmployee(type: NgForm) {
     //Perform validation before save employee data
-    if(this.isValid()){
+    if (this.isValid()) {
       this.services.addEmployee(this.employee);
       //Open Confirm DialogPopup after Save Employee and Navigate user to Home page
       this.showConfirmationMessage("Congratulations!!", "Employee data saved successfully!!", false, true);
     }
   }
-  openConfirmDialogPopup(enterAnimationDuration: string, exitAnimationDuration: string, title: string, message: string, showBothButtons: boolean = false, isAfterAddEmploye : boolean = false): void {
+  openConfirmDialogPopup(enterAnimationDuration: string, exitAnimationDuration: string, title: string, message: string, showBothButtons: boolean = false, isAfterAddEmploye: boolean = false): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       enterAnimationDuration,
       exitAnimationDuration,
@@ -70,7 +83,7 @@ export class EmployComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // Navigate user back to List page on Cancel action
-        this.navigateUserToHomePage(); 
+        this.navigateUserToHomePage();
       }
     });
   }
@@ -84,40 +97,54 @@ export class EmployComponent implements OnInit {
       : [...this.selectedSkills, { ...event, checked: true }];
     this.employee.employeeSkills = this.selectedSkills.map(skill => skill.name).join(', ');
   }
-  isValid() : boolean {
+  isValid(): boolean {
     let valid = true;
-    if(this.employee.employeeName.trim() == null || this.employee.employeeName.trim() == undefined || this.employee.employeeName.trim() == ''){
+    if (this.employee.employeeName.trim() == null || this.employee.employeeName.trim() == undefined || this.employee.employeeName.trim() == '') {
       this.showConfirmationMessage("Alert", "Please  enter employee name.");
       return false;
     }
-    if(this.employee.employeeEmailAdress.trim() == null || this.employee.employeeEmailAdress.trim() == undefined || this.employee.employeeEmailAdress.trim() == ''){
+    if (this.employee.employeeEmailAdress.trim() == null || this.employee.employeeEmailAdress.trim() == undefined || this.employee.employeeEmailAdress.trim() == '') {
       this.showConfirmationMessage("Alert", "Please  enter employee email address.");
       return false;
     }
-    if(this.employee.employeeContactNumber.trim() == null || this.employee.employeeContactNumber.trim() == undefined || this.employee.employeeContactNumber.trim() == ''){
+    if (this.employee.employeeContactNumber.trim() == null || this.employee.employeeContactNumber.trim() == undefined || this.employee.employeeContactNumber.trim() == '') {
       this.showConfirmationMessage("Alert", "Please  enter employee phone number.");
       return false;
     }
-    if(this.employee.employeeDepartment.trim() == this.departmentTypes[0]){
+    if (this.employee.employeeDepartment.trim() == this.departmentTypes[0]) {
       this.showConfirmationMessage("Alert", "Please  select employee department.");
       return false;
     }
-    if(this.employee.employeeGender.trim() == null || this.employee.employeeGender.trim() == undefined || this.employee.employeeGender.trim() == ''){
+    if (this.employee.employeeGender.trim() == null || this.employee.employeeGender.trim() == undefined || this.employee.employeeGender.trim() == '') {
       this.showConfirmationMessage("Alert", "Please  select employee gender.", undefined);
       return false;
     }
-    if(this.employee.employeeSkills.trim() == null || this.employee.employeeSkills.trim() == undefined || this.employee.employeeSkills.trim() == ''){
+    if (this.employee.employeeSkills.trim() == null || this.employee.employeeSkills.trim() == undefined || this.employee.employeeSkills.trim() == '') {
       this.showConfirmationMessage("Alert", "Please  select employee skills.");
       return false;
     }
     return valid;
   }
-  showConfirmationMessage(title: string, message: string, showBothButtons: boolean = false, isAfterAddEmploye : boolean = false){
+  showConfirmationMessage(title: string, message: string, showBothButtons: boolean = false, isAfterAddEmploye: boolean = false) {
     //Open Confirm DialogPopup
     this.openConfirmDialogPopup('0ms', '0ms', title, message, showBothButtons, isAfterAddEmploye);
   }
-  navigateUserToHomePage(){
+  navigateUserToHomePage() {
     //Navigate user to Home page
     this.route.navigate(['/']);
+  }
+  updateEmployeeData() {
+    const selectedEmployee = this.services.getEmployeeById(this.selectedEmployeID);
+    if (selectedEmployee != undefined) {
+      this.employee = selectedEmployee;
+      const selectedSkills = this.employee.employeeSkills.split(',').map(employ => employ.trim());
+      //Updating the current skills array's checked property based on selected skills
+      this.skills = this.skills.map(skill => ({
+        ...skill,
+        checked: selectedSkills.includes(skill.name) // Update checked if name exists in selectedSkills
+      }));
+    } else {
+      this.showConfirmationMessage("Error", "Failed to update employee data.");
+    }
   }
 }

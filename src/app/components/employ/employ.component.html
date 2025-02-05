@@ -68,9 +68,14 @@
             <mat-divider class="container mt-5" />
             <div class="text-center mt-5">
                 <button mat-raised-button color="primary" class="m-3" type="submit">
-                    Save
+                    {{buttonTitle}}
                 </button>
-                <button mat-raised-button color="warn" class="m-3" (click)="handleCancel()" type="button">
+                @if(disPlayDeleteButton){
+                    <button mat-raised-button color="warn" class="m-3" (click)="handleDelete()" type="button">
+                        Delete
+                    </button>
+                }
+                <button mat-raised-button class="m-3" (click)="handleCancel()" type="button">
                     Cancel
                 </button>
             </div>

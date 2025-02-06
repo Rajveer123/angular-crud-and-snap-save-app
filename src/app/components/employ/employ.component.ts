@@ -34,7 +34,7 @@ export class EmployComponent implements OnInit {
   selectedSkills: Skills[] = [];
   selectedEmployeID = 0;
   skills: Skills[] = [];
-  selectedAction : string = 'Cancel';
+  selectedAction: string = 'Cancel';
   employee: Employee = {
     //Passing random ID to employee
     employeeId: Math.floor(Math.random() * 100000),
@@ -49,6 +49,7 @@ export class EmployComponent implements OnInit {
   disPlayDeleteButton: boolean = false;
   constructor(private route: Router, private services: EmployService, private headerTitleService: HeaderTitleServiceService, private router: ActivatedRoute) { }
   ngOnInit(): void {
+    //Get the ID of the selected employee from routes
     this.selectedEmployeID = this.router.snapshot.params["id"];
     this.skills.push({ name: 'Java', id: 0, checked: false });
     this.skills.push({ name: 'C#', id: 1, checked: false });
@@ -63,7 +64,7 @@ export class EmployComponent implements OnInit {
       this.updateEmployeeData()
     }
   }
-  handleDelete(){
+  handleDelete() {
     this.selectedAction = 'Delete';
     //Open Confirm DialogPopup before Delete Employee
     this.showConfirmationMessage("Delete", "Do you really wants to delete this employe ?", true, true);
@@ -71,14 +72,14 @@ export class EmployComponent implements OnInit {
   saveEmployee(type: NgForm) {
     //Perform validation before save / update employee data
     if (this.isValid()) {
-      if(this.selectedEmployeID>0){
+      if (this.selectedEmployeID > 0) {
         this.services.updateEmployee(this.employee);
         //Open Confirm DialogPopup after Update Employee and Navigate user to Home page
         this.showConfirmationMessage("Congratulations!!", "Employee data updated successfully!!", false, true);
-      }else {
+      } else {
         this.services.addEmployee(this.employee);
-      //Open Confirm DialogPopup after Save Employee and Navigate user to Home page
-      this.showConfirmationMessage("Congratulations!!", "Employee data saved successfully!!", false, true);
+        //Open Confirm DialogPopup after Save Employee and Navigate user to Home page
+        this.showConfirmationMessage("Congratulations!!", "Employee data saved successfully!!", false, true);
       }
     }
   }
@@ -91,9 +92,9 @@ export class EmployComponent implements OnInit {
     // Handling the dialog result
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        if(this.selectedAction == 'Delete') {
-            //Delete Employee from local storage 
-            this.services.deleteEmployee(this.selectedEmployeID);
+        if (this.selectedAction == 'Delete') {
+          //Delete Employee from local storage 
+          this.services.deleteEmployee(this.selectedEmployeID);
         }
         // Navigate user back to List page on Cancel action
         this.navigateUserToHomePage();
@@ -105,10 +106,16 @@ export class EmployComponent implements OnInit {
     this.showConfirmationMessage("Please Confirm", "Would you like to cancel process ?", true);
   }
   onCheckBoxChange(event: Skills) {
-    this.selectedSkills = this.selectedSkills.some(skill => skill.id === event.id)
-      ? this.selectedSkills.filter(skill => skill.id !== event.id)
-      : [...this.selectedSkills, { ...event, checked: true }];
-    this.employee.employeeSkills = this.selectedSkills.map(skill => skill.name).join(', ');
+    //Reset the selected skills
+    this.employee.employeeSkills = '';
+    this.skills.filter((skill) => skill.id === event.id).map(skill => skill.checked = !skill.checked);
+    setTimeout(() => {
+      this.skills.forEach(skill => {
+        if (skill.checked) {
+          this.employee.employeeSkills += skill.name + ',';
+        }
+      });
+    }, 100);
   }
   isValid(): boolean {
     let valid = true;
@@ -150,7 +157,7 @@ export class EmployComponent implements OnInit {
     const selectedEmployee = this.services.getEmployeeById(this.selectedEmployeID);
     if (selectedEmployee != undefined) {
       this.employee = selectedEmployee;
-      const selectedSkills = this.employee.employeeSkills.split(',').map(employ => employ.trim());
+      const selectedSkills = this.employee.employeeSkills.split(',').map((emp) => emp.trim());
       //Updating the current skills array's checked property based on selected skills
       this.skills = this.skills.map(skill => ({
         ...skill,

@@ -3,9 +3,11 @@
     <mat-label>Search</mat-label>
       <input matInput [(ngModel)]="searchText" (keyup)="applyFilter($event)" placeholder="Type to search...">
   </mat-form-field>
-  <div class="buttonContainerDiv">
-    <button  mat-flat-button class="warn" type="button" (click)="handleClearSearch()">Cancel</button>
-  </div>
+  @if(searchText.trim().length > 0){
+    <div class="buttonContainerDiv">
+      <button  mat-flat-button class="warn" type="button" (click)="handleClearSearch()">Cancel</button>
+    </div>
+  }
 </div>
   
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">

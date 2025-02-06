@@ -31,7 +31,7 @@ export class EmployService {
   // Delete Employee
   deleteEmployee(employeeId: number): void{
     let employees = this.getEmployesses();
-    employees = employees.filter(employee => employee.employeeId!== employeeId);
+    employees = employees.filter(employee => employee.employeeId != employeeId);
     localStorage.setItem(this.storageKey, JSON.stringify(employees));
   }
 

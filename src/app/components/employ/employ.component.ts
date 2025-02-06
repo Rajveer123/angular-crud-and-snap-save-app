@@ -109,15 +109,17 @@ export class EmployComponent implements OnInit {
     //Reset the selected skills
     this.employee.employeeSkills = '';
     this.skills.filter((skill) => skill.id === event.id).map(skill => skill.checked = !skill.checked);
-   let setTimeOut =  setTimeout(() => {
+    let setTimeOut = setTimeout(() => {
       this.skills.forEach(skill => {
         if (skill.checked) {
           this.employee.employeeSkills += skill.name + ',';
         }
       });
       clearTimeout(setTimeOut);
+      //Removed the comma at the end of the string
+      this.employee.employeeSkills = this.employee.employeeSkills.slice(0, -1);
     }, 100);
-    
+
   }
   isValid(): boolean {
     let valid = true;

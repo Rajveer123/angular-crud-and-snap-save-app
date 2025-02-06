@@ -1,15 +1,32 @@
 table {
-    width: 100%;
-    table-layout:fixed;
-  }
-  .mat-mdc-form-field {
-    font-size: 14px;
-    width: 100%;
-  }
-  mat-form-field {
-    width: 100%;
-  }
-  .example-button-row {
-    display: table-cell;
-    max-width: 600px;
-  }
+  width: 100%;
+  table-layout: fixed;
+}
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+mat-form-field {
+  width: 100%;
+}
+.example-button-row {
+  display: table-cell;
+  max-width: 600px;
+}
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centers horizontally */
+  gap: 10px; /* Adds spacing between input and button */
+  margin-top: 20px;
+}
+.search-box {
+  width: 80%; /* Adjust width as needed */
+}
+.cancel-btn {
+  height: 40px; /* Match input height */
+}
+.buttonContainerDiv {
+  height: 100%;
+  margin-top: -20px;
+}

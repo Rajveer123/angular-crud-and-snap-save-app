@@ -11,11 +11,13 @@ import { HeaderTitleServiceService } from '../../services/header.title.service.s
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
+import { FormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-employ-list',
   templateUrl: './employ-list.component.html',
   styleUrl: './employ-list.component.css',
-  imports: [MatFormFieldModule, MatInputModule, MatTableModule,MatButtonModule,MatIconModule,MatDividerModule],
+  imports: [MatFormFieldModule, MatInputModule, MatTableModule,MatButtonModule,MatIconModule,MatDividerModule, FormsModule],
 })
 export class EmployListComponent implements OnInit{
   readonly dialog = inject(MatDialog);
@@ -23,6 +25,7 @@ export class EmployListComponent implements OnInit{
   displayedColumns: string[] = ['employeeId', 'employeeName', 'employeeEmailAdress', 'employeeDepartment','employeeSkills','actions'];
   dataSource = new MatTableDataSource(this.EMPLOYEE_LIST);
   selectedEmployeeId = 0;
+  searchText: string = '';
   constructor(private route: Router, private services: EmployService, private headerTitleService : HeaderTitleServiceService) {
   }
   ngOnInit(): void {
@@ -82,5 +85,9 @@ export class EmployListComponent implements OnInit{
       this.deleteEmployee(this.selectedEmployeeId); 
     }
   });
+  }
+  handleClearSearch(){
+    this.searchText = '';
+    this.dataSource.filter = this.searchText;
   }
 }
